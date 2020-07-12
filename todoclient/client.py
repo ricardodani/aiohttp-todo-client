@@ -17,7 +17,13 @@ class ClientValidationError(Exception):
 class APIResponse(BaseModel):
     status_code: int
     method: str
+
+
+class APISuccessResponse(APIResponse):
     data: Optional[Any] = None
+
+
+class APIErrorResponse(APIResponse):
     error_msg: str = None
 
 
@@ -55,13 +61,13 @@ class AiohttpJsonClient(BaseModel):
             ) as resp:
                 data = await resp.json()
                 if 200 <= resp.status < 300:
-                    return APIResponse(
+                    return APISuccessResponse(
                         status_code=resp.status,
                         data=data,
                         method=method
                     )
                 else:
-                    return APIResponse(
+                    return APIErrorResponse(
                         status_code=resp.status,
                         error_msg=data['detail'],
                         method=method

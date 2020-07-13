@@ -33,11 +33,11 @@ class AiohttpJsonClient(BaseModel):
 
     def validate_input(self, input_data: dict, model: BaseModel):
         try:
-            input_data = model(**input_data)
+            input_model = model(**input_data)
         except ValidationError as e:
             raise ClientValidationError(str(e))
         else:
-            return input_data
+            return input_model
 
     def get_auth(self):
         pass
@@ -82,9 +82,9 @@ class TodoAsyncClient(AiohttpJsonClient):
     async def register_user(
         self, **user_input
     ):
-        user_input = self.validate_input(user_input, UserInput)
+        user_model = self.validate_input(user_input, UserInput)
         return await self.handler(
-            '/register', POST, user_input.dict()
+            '/register', POST, user_model.dict()
         )
 
 
@@ -104,9 +104,9 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def add_list(
         self, **list_input
     ):
-        list_input = self.validate_input(list_input, ListInput)
+        list_model = self.validate_input(list_input, ListInput)
         return await self.handler(
-            f'/list', POST, list_input.dict()
+            f'/list', POST, list_model.dict()
         )
 
     async def view_list(
@@ -119,9 +119,9 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def add_item(
         self, list_id: int, **item_input
     ):
-        item_input = self.validate_input(item_input, ItemInput)
+        item_model = self.validate_input(item_input, ItemInput)
         return await self.handler(
-            f'/list/{list_id}', POST, item_input.dict()
+            f'/list/{list_id}', POST, item_model.dict()
        )
 
     async def delete_list(
@@ -134,9 +134,9 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def update_item(
         self, list_id: int, item_id: int, **item_input
     ):
-        item_input = self.validate_input(item_input, ItemInput)
+        item_model = self.validate_input(item_input, ItemInput)
         return await self.handler(
-            f'/list/{list_id}/{item_id}', PUT, item_input.dict()
+            f'/list/{list_id}/{item_id}', PUT, item_model.dict()
         )
 
     async def delete_item(

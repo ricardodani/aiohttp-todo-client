@@ -9,7 +9,10 @@ def random_credentials():
     return number, f'bot{number}@emailfake.com', '123456'
 
 
-async def integration_test():
+async def test_integration():
+    '''
+    Makes a integration test using a real FastAPI Simple Todo server
+    '''
     client = TodoAsyncClient()
 
     number, user, password = random_credentials()
@@ -66,5 +69,6 @@ async def integration_test():
     assert list_response.error_msg == 'List does not exists'
 
 
+
 if __name__ == '__main__':
-    asyncio.run(integration_test())
+    asyncio.run(test_integration())

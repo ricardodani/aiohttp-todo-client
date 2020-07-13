@@ -27,7 +27,7 @@ pytest todoclient/tests_unit.py
 
 # Usage
 
-```
+```python
 >>> from todoclient.client import TodoAsyncClient
 >>> client = TodoAsyncClient(base_url=optional_url)
 >>> await client.register_user(first_name="User", last_name="Name", email="email@email.com", password="123")

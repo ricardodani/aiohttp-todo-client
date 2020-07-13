@@ -1,5 +1,5 @@
 # aiohttp-todo-client
-A fastapi-simple-todo async client written in Python 3 and aiohttp library
+A https://github.com/ricardodani/fastapi-simple-todo client written in Python 3 and aiohttp library
 
 # Development instructions
 

@@ -82,6 +82,18 @@ class TodoAsyncClient(AiohttpJsonClient):
     async def register_user(
         self, **user_input
     ):
+        '''
+        Register a user
+
+        Keywork args:
+            email: str
+            first_name: str
+            last_name: str
+            password: str
+        
+        Returns:
+            APIResponse
+        '''
         user_model = self.validate_input(user_input, UserInput)
         return await self.handler(
             '/register', POST, user_model.dict()
@@ -97,6 +109,12 @@ class AuthTodoAsyncClient(TodoAsyncClient):
         return aiohttp.BasicAuth(self.user, self.password)
 
     async def read_user(self):
+        '''
+        Reads a authenticated user information response
+        
+        Returns:
+            APIResponse
+        '''
         return await self.handler(
             '/__user__', GET
         )
@@ -104,6 +122,15 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def add_list(
         self, **list_input
     ):
+        '''
+        Adds a new Todo list
+
+        Keywork args:
+            list_name: str
+        
+        Returns:
+            APIResponse
+        '''
         list_model = self.validate_input(list_input, ListInput)
         return await self.handler(
             f'/list', POST, list_model.dict()
@@ -112,6 +139,15 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def view_list(
         self, list_id: int
     ):
+        '''
+        View a todo list items 
+
+        Args:
+            list_id: int
+        
+        Returns:
+            APIResponse
+        '''
         return await self.handler(
             f'/list/{list_id}', GET
         )
@@ -119,6 +155,18 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def add_item(
         self, list_id: int, **item_input
     ):
+        '''
+        Add a item to a list 
+
+        Args:
+            list_id: int
+        
+        Keyword Args:
+            todo_item_name: str
+        
+        Returns:
+            APIResponse
+        '''
         item_model = self.validate_input(item_input, ItemInput)
         return await self.handler(
             f'/list/{list_id}', POST, item_model.dict()
@@ -127,6 +175,15 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def delete_list(
         self, list_id: int
     ):
+        '''
+        Removes a list 
+
+        Args:
+            list_id: int
+        
+        Returns:
+            APIResponse
+        '''
         return await self.handler(
             f'/list/{list_id}', DELETE
         )
@@ -134,6 +191,16 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def update_item(
         self, list_id: int, item_id: int, **item_input
     ):
+        '''
+        Updates a item of a list 
+
+        Args:
+            list_id: int
+            item_id: int
+        
+        Returns:
+            APIResponse
+        '''
         item_model = self.validate_input(item_input, ItemInput)
         return await self.handler(
             f'/list/{list_id}/{item_id}', PUT, item_model.dict()
@@ -142,6 +209,16 @@ class AuthTodoAsyncClient(TodoAsyncClient):
     async def delete_item(
          self, list_id: int, item_id: int
     ):
+        '''
+        Removes a item of a list 
+
+        Args:
+            list_id: int
+            item_id: int
+        
+        Returns:
+            APIResponse
+        '''
         return await self.handler(
             f'/list/{list_id}/{item_id}', DELETE
         )
